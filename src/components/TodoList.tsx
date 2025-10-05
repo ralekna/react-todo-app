@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { TodoItem, type TodoItemData } from "./TodoItem.tsx";
 import { AddTodoForm } from "./AddTodoForm.tsx";
+import { usePersistence } from "../utils/usePersistence.ts";
 
 function addTodo(text: string) {
   return { type: "add", text } as const;
@@ -14,13 +15,18 @@ function completeTodo(id: number, completed: boolean) {
   return { type: "complete", id, completed } as const;
 }
 
+function rehydrateTodos(todos: TodoItemData[]) {
+  return { type: "rehydrate", todos } as const;
+}
+
 type TodoAction =
   | ReturnType<typeof addTodo>
   | ReturnType<typeof removeTodo>
-  | ReturnType<typeof completeTodo>;
+  | ReturnType<typeof completeTodo>
+  | ReturnType<typeof rehydrateTodos>;
 
 function todoReducer(
-  state: TodoItemData[],
+  state: TodoItemData[] = [],
   action: TodoAction,
 ): TodoItemData[] {
   switch (action.type) {
@@ -35,6 +41,8 @@ function todoReducer(
       return state.map((todo) =>
         todo.id === action.id ? { ...todo, completed: action.completed } : todo,
       );
+    case "rehydrate":
+      return [...action.todos];
     default:
       return state;
   }
@@ -52,6 +60,8 @@ export function TodoList() {
     todoReducer,
     initialTodos,
   );
+
+  usePersistence("todos", todos, (todos) => dispatch(rehydrateTodos(todos)));
 
   return (
     <div className={"todo-list"}>
