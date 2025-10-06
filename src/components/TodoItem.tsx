@@ -20,6 +20,7 @@ export function TodoItem({
       <input
         type={"checkbox"}
         onChange={(e) => onCompleted(e.target.checked)}
+        checked={completed}
       />
       <span>{text}</span>
       <button onClick={onRemove}>&times;</button>
