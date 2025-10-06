@@ -1,5 +1,8 @@
 {
   "name": "todo-app",
+  "author": "Rytis Alekna <r.alekna@gmail.com>",
+  "description": "A simple todo app built with React, Vite, and TypeScript.",
+  "license": "MIT",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +10,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "react": "^19.1.1",
