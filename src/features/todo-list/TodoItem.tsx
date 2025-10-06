@@ -1,8 +1,4 @@
-export type TodoItemData = {
-  id: number;
-  text: string;
-  completed: boolean;
-};
+import type { TodoItemData } from "./types.ts";
 
 type TodoItemProps = {
   onCompleted: (todoItem: TodoItemData) => void;
