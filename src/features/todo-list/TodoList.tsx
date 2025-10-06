@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { TodoItem, type TodoItemData } from "./TodoItem.tsx";
 import { AddTodoForm } from "./AddTodoForm.tsx";
-import { usePersistence } from "../utils/usePersistence.ts";
+import { usePersistence } from "../../utils/usePersistence.ts";
 
 function addTodo(text: string) {
   return { type: "add", text } as const;

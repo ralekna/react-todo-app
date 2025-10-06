@@ -1,11 +1,8 @@
-import './App.css'
-import {TodoList} from "./components/TodoList.tsx";
+import "./App.css";
+import { TodoList } from "./features/todo-list/TodoList.tsx";
 
 function App() {
-
-  return (
-    <TodoList />
-  )
+  return <TodoList />;
 }
 
-export default App
+export default App;
