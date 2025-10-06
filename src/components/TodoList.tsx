@@ -63,6 +63,14 @@ export function TodoList() {
 
   usePersistence("todos", todos, (todos) => dispatch(rehydrateTodos(todos)));
 
+  function onCompleted(todo: TodoItemData) {
+    dispatch(completeTodo(todo.id, todo.completed));
+  }
+
+  function onRemove(todoItem: TodoItemData) {
+    dispatch(removeTodo(todoItem.id));
+  }
+
   return (
     <div className={"todo-list"}>
       <h1>Todo List</h1>
@@ -74,10 +82,8 @@ export function TodoList() {
             id={todo.id}
             text={todo.text}
             completed={todo.completed}
-            onCompleted={(completed) =>
-              dispatch(completeTodo(todo.id, completed))
-            }
-            onRemove={() => dispatch(removeTodo(todo.id))}
+            onCompleted={onCompleted}
+            onRemove={onRemove}
           />
         ))}
       </ul>

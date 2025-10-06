@@ -5,25 +5,28 @@ export type TodoItemData = {
 };
 
 type TodoItemProps = {
-  onCompleted: (completed: boolean) => void;
-  onRemove?: () => void;
+  onCompleted: (todoItem: TodoItemData) => void;
+  onRemove: (todoItem: TodoItemData) => void;
 } & TodoItemData;
 
-export function TodoItem({
-  text,
-  completed,
-  onCompleted,
-  onRemove,
-}: TodoItemProps) {
+export function TodoItem(props: TodoItemProps) {
+  const { text, completed }: TodoItemProps = props;
+
+  const { onCompleted, onRemove, ...todoItem }: TodoItemProps = props;
+
+  function onRemoveButtonClick() {
+    onRemove(todoItem);
+  }
+
   return (
     <li className={completed ? "completed" : ""}>
       <input
         type={"checkbox"}
-        onChange={(e) => onCompleted(e.target.checked)}
+        onChange={() => onCompleted(todoItem)}
         checked={completed}
       />
       <span>{text}</span>
-      <button onClick={onRemove}>&times;</button>
+      <button onClick={onRemoveButtonClick}>&times;</button>
     </li>
   );
 }
