@@ -6,6 +6,36 @@
 }
 
 .todo-list {
+  .addTodoForm {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem 0 0 0.5rem;
+      border-right: none;
+    }
+    button {
+      border: 1px solid #ccc;
+
+      border-radius: 0 0.5rem 0.5rem 0;
+
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  }
+
+  .filters {
+    margin-bottom: 1rem;
+    text-align: left;
+    label:first-of-type {
+      margin-right: 0.5rem;
+    }
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -30,7 +60,17 @@
         border-radius: 100%;
         width: 2rem;
         height: 2rem;
+        line-height: 2;
+        font-size: 1rem;
         padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+          border-color: #ff6b6b;
+          background-color: #ff6b6b;
+          color: white;
+        }
       }
     }
   }

@@ -22,7 +22,7 @@ export function TodoItem(props: TodoItemProps) {
         checked={completed}
       />
       <span>{text}</span>
-      <button onClick={onRemoveButtonClick}>&times;</button>
+      <button onClick={onRemoveButtonClick}>&times;️</button>
     </li>
   );
 }
