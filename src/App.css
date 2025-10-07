@@ -31,7 +31,7 @@
   .filters {
     margin-bottom: 1rem;
     text-align: left;
-    label:first-of-type {
+    span:not(:last-of-type) {
       margin-right: 0.5rem;
     }
   }

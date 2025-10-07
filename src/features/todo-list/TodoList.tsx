@@ -1,7 +1,7 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { TodoItem } from "./TodoItem.tsx";
 import { AddTodoForm } from "./AddTodoForm.tsx";
-import { usePersistence } from "../../utils/usePersistence.ts";
+import { usePersistence } from "../../utils/react/usePersistence.ts";
 import {
   addTodo,
   completeTodo,
@@ -12,6 +12,7 @@ import {
   todoReducer,
 } from "./reducer.ts";
 import type { TodoItemData } from "./types.ts";
+import { Filter } from "./Filter.tsx";
 
 export function TodoList() {
   const [todos, dispatch] = useReducer<TodoItemData[], [TodoAction]>(
@@ -19,8 +20,10 @@ export function TodoList() {
     initialTodos,
   );
 
-  function onCompleted(todo: TodoItemData) {
-    dispatch(completeTodo(todo.id, todo.completed));
+  const [filter, setFilter] = useState("all");
+
+  function onCompleted(todo: TodoItemData, completed: boolean) {
+    dispatch(completeTodo(todo.id, completed));
   }
 
   function onRemove(todoItem: TodoItemData) {
@@ -31,23 +34,49 @@ export function TodoList() {
     dispatch(rehydrateTodos(todos));
   }
 
+  function onAdd(text: string) {
+    dispatch(addTodo(text));
+  }
+
   usePersistence("todos", todos, onRehydrate);
+  usePersistence("filter", filter, setFilter);
+
+  function filterTodos(filter: string, todo: TodoItemData) {
+    if (filter === "active") {
+      return !todo.completed;
+    }
+    if (filter === "completed") {
+      return todo.completed;
+    }
+    return true;
+  }
 
   return (
     <div className={"todo-list"}>
-      <h1>Todo List</h1>
-      <AddTodoForm onAdd={(text) => dispatch(addTodo(text))} />
+      <AddTodoForm onAdd={onAdd} />
+      <Filter
+        name={"filter"}
+        onChange={setFilter}
+        value={filter}
+        options={[
+          { value: "all", label: "All" },
+          { value: "active", label: "Active" },
+          { value: "completed", label: "Completed" },
+        ]}
+      />
       <ul>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            id={todo.id}
-            text={todo.text}
-            completed={todo.completed}
-            onCompleted={onCompleted}
-            onRemove={onRemove}
-          />
-        ))}
+        {todos
+          .filter((value) => filterTodos(filter, value))
+          .map((todo) => (
+            <TodoItem
+              key={todo.id}
+              id={todo.id}
+              text={todo.text}
+              completed={todo.completed}
+              onCompleted={onCompleted}
+              onRemove={onRemove}
+            />
+          ))}
       </ul>
     </div>
   );
