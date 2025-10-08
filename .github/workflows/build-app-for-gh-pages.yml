@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Deploy to GitHub Pages
+name: Build app for GitHub Pages deployment
 
 # Controls when the workflow will run
 on:
@@ -39,9 +39,10 @@ jobs:
           path: ./dist
 
   deploy:
-    name: Deploy
+    name: Deploy artefacts to gh-pages branch
     needs: build
     runs-on: ubuntu-latest
+    # Left gh-deploy-workflow branch for workflow debugging purposes only
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/gh-deploy-workflow' }}
 
     steps:
@@ -51,11 +52,11 @@ jobs:
           name: production-files
           path: ./dist
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
       - name: Deployment success message
-        run: echo "Deployed successfully to GitHub Pages https://ralekna.github.io/react-todo-app/"
+        run: echo "Build deployed successfully to gh-pages branch"
