@@ -67,9 +67,10 @@ export function TodoList() {
       <ul>
         {todos
           .filter((value) => filterTodos(filter, value))
-          .map((todo) => (
+          .map((todo, index) => (
             <TodoItem
               key={todo.id}
+              testId={`todo-item-${index}`}
               id={todo.id}
               text={todo.text}
               completed={todo.completed}
